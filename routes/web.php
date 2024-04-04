@@ -20,13 +20,17 @@ Route::get('/', function () {
 
 Route::prefix('/admin')->namespace('App\Http\Controller')->group(function(){
     
-    Route::match(['get', 'post'],'login', [AdminController::class, 'login'])->name('admin.login');
+    Route::match(['get', 'post'], '/login', [AdminController::class, 'login'])->name('admin.login');
 
     Route::group(['middleware'=>['admin']], function(){
 
-        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-        Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
+        Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+        Route::match(['get','post'], '/update-password', [AdminController::class, 'updatePassword'])->name('admin.updatePassword');
+
+        Route::post('/check-current-password', [AdminController::class, 'checkCurrentPassword'])->name('admin.checkCurrentPassword');
 
     });
 });
